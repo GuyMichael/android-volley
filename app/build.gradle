@@ -1,0 +1,35 @@
+// build file for volley base
+
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
+android {
+	compileSdkVersion 21
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+	
+	lintOptions {
+        abortOnError false
+    }
+}
+
+task installArchives(type: Upload, dependsOn:build) {
+    description "Installs the artifacts to the local Maven repository."
+    repositories.mavenInstaller {
+        configuration = configurations.default
+        pom.groupId = 'com.android.volley'
+        pom.artifactId = 'android-volley'
+        pom.version = '1.0.0-SNAPSHOT'
+    }
+}
